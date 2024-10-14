@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,7 @@
             align-items: center;
             background-color: #f5deb3;
             padding: 20px;
+            margin: 0;
         }
 
         .product {
@@ -30,36 +31,108 @@
         .cart {
             margin-top: 20px;
         }
+
+        #cart-counter {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 0 8px;
+            font-size: 14px;
+        }
+
+        /* Для фиксированного верхнего меню */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f5deb3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header .cart {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Заголовок и корзина фиксированное сверху -->
+    <div class="header">
+        <h1>Cappuccino</h1>
+        <div class="cart" id="cart-button">
+            Корзина <span id="cart-counter"></span>
+        </div>
+    </div>
+
     <h1>Выберите ваш кофе</h1>
 
     <!-- Пример 3 картинок с кофе -->
     <div class="product">
         <img src="https://github.com/junior-learning-python/index.htm/blob/main/Americano.jpg?raw=true" alt="Американо/Americano">
         <p>Американо/Americano - 22 000 сум.</p>
-        <button>Добавить в корзину</button>
+        <button onclick="addToCart('Американо', 22000)">Добавить в корзину</button>
     </div>
 
     <div class="product">
         <img src="https://github.com/junior-learning-python/index.htm/blob/main/Capucino.jpg?raw=true" alt="Капучино/Americano">
         <p>Капучино/Americano - 23 000 сум.</p>
-        <button>Добавить в корзину</button>
+        <button onclick="addToCart('Капучино', 23000)">Добавить в корзину</button>
     </div>
 
     <div class="product">
         <img src="https://github.com/junior-learning-python/index.htm/blob/main/Lette.jpeg?raw=true" alt="Латте/Latte">
         <p>Латте/Latte - 23 000 сум.</p>
-        <button>Добавить в корзину</button>
-    </div>
-
-    <div class="cart">
-        <button>Перейти в корзину</button>
+        <button onclick="addToCart('Латте', 23000)">Добавить в корзину</button>
     </div>
 
     <script>
-        // Здесь ты можешь добавить JavaScript для функционала корзины
+        // Функция для добавления товара в корзину
+        function addToCart(productName, productPrice) {
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+
+            // Проверяем, есть ли уже этот товар в корзине
+            let productIndex = cart.findIndex(item => item.name === productName);
+            if (productIndex > -1) {
+                // Если товар уже есть, увеличиваем количество
+                cart[productIndex].quantity += 1;
+            } else {
+                // Если товара нет, добавляем новый товар
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+
+            // Сохраняем обновленную корзину в localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Обновляем количество товаров в корзине
+            updateCartCounter();
+        }
+
+        // Функция для обновления количества товаров в корзине
+        function updateCartCounter() {
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            // Обновляем отображение количества товаров на кнопке корзины
+            document.getElementById('cart-counter').textContent = totalItems > 0 ? totalItems : '';
+        }
+
+        // Обновляем счетчик корзины при загрузке страницы
+        window.onload = updateCartCounter;
     </script>
 </body>
 </html>
