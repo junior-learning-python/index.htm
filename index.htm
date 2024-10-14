@@ -1,45 +1,10 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мини-кафе</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f5deb3;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .product {
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .product img {
-            width: 200px;
-            height: 200px;
-        }
-
-        .cart {
-            margin-top: 20px;
-        }
-
-        #cart-counter {
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 0 8px;
-            font-size: 14px;
-        }
-
         /* Для фиксированного верхнего меню */
         .header {
             position: fixed;
@@ -52,14 +17,63 @@
             align-items: center;
             padding: 10px 20px;
             z-index: 1000;
+            box-sizing: border-box; /* Убедимся, что padding не влияет на ширину */
         }
 
         .header h1 {
             margin: 0;
+            font-size: 24px; /* Устанавливаем адекватный размер заголовка */
         }
 
         .header .cart {
             cursor: pointer;
+            position: relative;
+            font-size: 16px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            max-width: 250px; /* Увеличим максимальную ширину корзины */
+            overflow: hidden;
+            min-width: 120px; /* Минимальная ширина, чтобы текст не сжимался */
+        }
+
+        #cart-counter {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            margin-left: 5px; /* Добавим небольшой отступ между корзиной и количеством */
+        }
+
+        /* Общий стиль для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5deb3; /* Цвет фона */
+            margin-top: 80px; /* Чтобы контент не перекрывался фиксированным меню */
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .product {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .product img {
+            width: 200px;
+            height: 200px;
+	    border: none;
         }
     </style>
 </head>
@@ -69,7 +83,7 @@
     <div class="header">
         <h1>Cappuccino</h1>
         <div class="cart" id="cart-button">
-            Корзина <span id="cart-counter"></span>
+            Корзина<span id="cart-counter"></span> <!-- Убираем лишний пробел между "Корзина" и счетчиком -->
         </div>
     </div>
 
